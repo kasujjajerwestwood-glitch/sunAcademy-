@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Default Deny Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidUser(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.email is string && data.email.size() <= 256 &&
+             data.name is string && data.name.size() <= 128;
+    }
+
+    function isValidCircuit(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() <= 128 &&
+             data.code is string && data.code.size() <= 15000;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if true;
+      allow create, update: if isValidUser(incoming());
+      allow delete: if false;
+    }
+
+    // Circuits collection
+    match /circuits/{circuitId} {
+      allow read: if true;
+      allow create, update: if isValidCircuit(incoming());
+      allow delete: if true;
+    }
+
+    // Health/connection test collection
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

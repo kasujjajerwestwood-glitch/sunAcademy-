@@ -1,0 +1,51 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile with email, phone, and delivery address",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "street": { "type": "string", "maxLength": 256 },
+        "city": { "type": "string", "maxLength": 128 },
+        "state": { "type": "string", "maxLength": 64 },
+        "zipCode": { "type": "string", "maxLength": 32 },
+        "country": { "type": "string", "maxLength": 64 },
+        "role": { "type": "string", "enum": ["Student", "Educator", "Maker"] },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "email", "name"]
+    },
+    "Circuit": {
+      "title": "Circuit Design",
+      "description": "Circuit design with components and code",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 64 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "simulationType": { "type": "string", "maxLength": 64 },
+        "code": { "type": "string", "maxLength": 10000 },
+        "codeLanguage": { "type": "string", "maxLength": 32 },
+        "componentsCount": { "type": "number" },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "lastEdited": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "title", "code"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile records"
+    },
+    "/circuits/{circuitId}": {
+      "schema": "Circuit",
+      "description": "Circuit designs and code sketches"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "sunAcademy",
+  "description": "An all-in-one academy for learning programming, coding, web development, Python, electronics, and Arduino projects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
